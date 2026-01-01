@@ -9,6 +9,13 @@ h1 {
   margin-bottom: 10px;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  background: white;
+}
+
 th, td {
   border: 1px solid #ccc;
   padding: 8px;
@@ -46,12 +53,11 @@ th {
   cursor: pointer;
 }
 
-/* スマホ対応：テーブルを横スクロール可能に */
+/* ===== スマホ対応 ===== */
 .table-wrapper {
   overflow-x: auto;
 }
 
-/* スマホ向けレイアウト調整 */
 @media (max-width: 600px) {
   body {
     padding: 10px;
@@ -82,4 +88,36 @@ th {
     padding: 6px 10px;
     font-size: 13px;
   }
+}
+
+/* ===== モーダル（ポップアップ） ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.close-button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
 }
