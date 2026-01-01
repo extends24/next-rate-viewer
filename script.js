@@ -41,11 +41,12 @@ async function viewGraph(playerId, playerName) {
   modal.style.display = "flex";
   document.body.style.overflow = "hidden";
 
-  document.getElementById("graphTitle").textContent = `${playerName} のレート推移`;
-
-  const apiUrl = `https://next-rate.vercel.app/api/rating/history?playerId=${playerId}`;
+  const apiUrl = `https://next-rate.vercel.app/api/rating/public?keyword=${encodeURIComponent(playerName)}`;
   const res = await fetch(apiUrl);
-  const history = await res.json();
+  const players = await res.json();
+
+  const player = players.find(p => p.id === playerId);
+  const history = player.history;
 
   const labels = history.map(h => new Date(h.playedAt).toLocaleDateString("ja-JP"));
   const data = history.map(h => h.rate);
@@ -62,7 +63,7 @@ async function viewGraph(playerId, playerName) {
     data: {
       labels,
       datasets: [{
-        label: "レート推移",
+        label: `${playerName} のレート推移`,
         data,
         borderColor: "blue",
         borderWidth: 2,
@@ -75,6 +76,7 @@ async function viewGraph(playerId, playerName) {
     }
   });
 }
+
 
 // ===== モーダルを閉じる =====
 function closeModal() {
