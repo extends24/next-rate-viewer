@@ -3,54 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>研究会レーティングシステム</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background: #f9f9f9;
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 20px;
-      background: white;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background: #eee;
-    }
-    .graph-button {
-      background: #3498db;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .search-area {
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-    .search-input {
-      padding: 8px;
-      width: 200px;
-      font-size: 14px;
-    }
-    .search-button {
-      padding: 8px 14px;
-      font-size: 14px;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -75,39 +28,6 @@
     </tbody>
   </table>
 
-  <script>
-  async function search() {
-    const keyword = document.getElementById("keyword").value.trim();
-    const tbody = document.getElementById("rating-body");
-
-    if (!keyword) {
-      tbody.innerHTML = `<tr><td colspan="4">検索ワードを入力してください</td></tr>`;
-      return;
-    }
-
-    const apiUrl = `https://next-rate.vercel.app/api/rating/public?keyword=${encodeURIComponent(keyword)}`;
-
-    const res = await fetch(apiUrl);
-    const players = await res.json();
-
-    if (players.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="4">該当するプレイヤーがいません</td></tr>`;
-      return;
-    }
-
-    tbody.innerHTML = players
-      .map(p => `
-        <tr>
-          <td>${p.name}</td>
-          <td>${p.currentRate}</td>
-          <td>
-            <button class="graph-button" onclick="viewGraph('${p.id}')">グラフ</button>
-          </td>
-        </tr>
-      `)
-      .join("");
-  }
-</script>
-
+  <script src="script.js"></script>
 </body>
 </html>
