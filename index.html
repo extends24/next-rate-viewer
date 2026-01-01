@@ -22,7 +22,7 @@
           <th>名前</th>
           <th>現レート</th>
           <th>初期レート</th>
-          <th>操作</th>
+          <th>過去10局の推移</th>
         </tr>
       </thead>
       <tbody id="rating-body">
@@ -31,18 +31,6 @@
     </table>
   </div>
 
-  <!-- ===== グラフ表示用モーダル ===== -->
-  <div id="graphModal" class="modal-overlay">
-    <div class="modal-content">
-      <button class="close-button" onclick="closeModal()">閉じる</button>
-      <h3 id="graphTitle">レート推移グラフ</h3>
-      <canvas id="rateChart"></canvas>
-    </div>
-  </div>
-
-  <!-- Chart.js 読み込み -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
-
 </body>
 </html>
