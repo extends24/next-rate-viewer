@@ -2,25 +2,53 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Player Ratings</title>
+  <title>研究会レーティングシステム</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #f5f5f5; }
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #eee;
+    }
+    .graph-button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <h1>プレイヤーレーティング一覧</h1>
-  <p>Next.js API から取得した最新レーティングを表示します。</p>
+  <h1>研究会レーティングシステム</h1>
+  <p>Next.js API から取得したプレイヤー一覧を表示します。</p>
 
   <table id="rating-table">
     <thead>
       <tr>
         <th>名前</th>
-        <th>レーティング</th>
+        <th>現レート</th>
         <th>初期レート</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody id="rating-body"></tbody>
@@ -41,9 +69,17 @@
             <td>${p.name}</td>
             <td>${p.currentRate}</td>
             <td>${p.initialRate}</td>
+            <td>
+              <button class="graph-button" onclick="viewGraph('${p.id}')">グラフ</button>
+            </td>
           </tr>
         `)
         .join("");
+    }
+
+    function viewGraph(playerId) {
+      // プレイヤーID付きのグラフページへ遷移（別ページを作る想定）
+      window.location.href = `graph.html?playerId=${playerId}`;
     }
 
     loadRatings();
