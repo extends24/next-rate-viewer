@@ -9,7 +9,6 @@ async function search() {
   }
 
   const apiUrl = `https://next-rate.vercel.app/api/rating/public?keyword=${encodeURIComponent(keyword)}`;
-
   const res = await fetch(apiUrl);
   const players = await res.json();
 
@@ -26,7 +25,7 @@ async function search() {
         <td>${p.currentRate}</td>
         <td>${p.initialRate}</td>
         <td>
-          <button class="graph-button" onclick="viewGraph('${p.id}')">グラフ</button>
+          <button class="graph-button" onclick="viewGraph('${p.id}', '${p.name}')">グラフ</button>
         </td>
       </tr>
     `
@@ -37,8 +36,12 @@ async function search() {
 // ===== グラフ表示処理 =====
 let chartInstance = null;
 
-async function viewGraph(playerId) {
-  document.getElementById("graphModal").style.display = "flex";
+async function viewGraph(playerId, playerName) {
+  const modal = document.getElementById("graphModal");
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  document.getElementById("graphTitle").textContent = `${playerName} のレート推移`;
 
   const apiUrl = `https://next-rate.vercel.app/api/rating/history?playerId=${playerId}`;
   const res = await fetch(apiUrl);
@@ -47,7 +50,8 @@ async function viewGraph(playerId) {
   const labels = history.map(h => new Date(h.playedAt).toLocaleDateString("ja-JP"));
   const data = history.map(h => h.rate);
 
-  const ctx = document.getElementById("rateChart").getContext("2d");
+  const canvas = document.getElementById("rateChart");
+  const ctx = canvas.getContext("2d");
 
   if (chartInstance) {
     chartInstance.destroy();
@@ -74,5 +78,11 @@ async function viewGraph(playerId) {
 
 // ===== モーダルを閉じる =====
 function closeModal() {
-  document.getElementById("graphModal").style.display = "none";
+  const modal = document.getElementById("graphModal");
+  modal.style.display = "none";
+  document.body.style.overflow = "auto";
+
+  const canvas = document.getElementById("rateChart");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
