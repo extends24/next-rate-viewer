@@ -35,12 +35,32 @@
       border-radius: 4px;
       cursor: pointer;
     }
+    .search-area {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    .search-input {
+      padding: 8px;
+      width: 200px;
+      font-size: 14px;
+    }
+    .search-button {
+      padding: 8px 14px;
+      font-size: 14px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <h1>研究会レーティングシステム</h1>
-  <p>Next.js API から取得したプレイヤー一覧を表示します。</p>
+  <p>プレイヤー名で検索してください。</p>
+
+  <div class="search-area">
+    <input id="keyword" class="search-input" type="text" placeholder="名前で検索" />
+    <button class="search-button" onclick="search()">検索</button>
+  </div>
 
   <table id="rating-table">
     <thead>
@@ -51,39 +71,45 @@
         <th>操作</th>
       </tr>
     </thead>
-    <tbody id="rating-body"></tbody>
+    <tbody id="rating-body">
+      <tr><td colspan="4">検索してください</td></tr>
+    </tbody>
   </table>
 
   <script>
-    async function loadRatings() {
-      const apiUrl = "https://next-rate.vercel.app/api/rating/public";
+  async function search() {
+    const keyword = document.getElementById("keyword").value.trim();
+    const tbody = document.getElementById("rating-body");
 
-      const res = await fetch(apiUrl);
-      const players = await res.json();
-
-      const tbody = document.getElementById("rating-body");
-
-      tbody.innerHTML = players
-        .map(p => `
-          <tr>
-            <td>${p.name}</td>
-            <td>${p.currentRate}</td>
-            <td>${p.initialRate}</td>
-            <td>
-              <button class="graph-button" onclick="viewGraph('${p.id}')">グラフ</button>
-            </td>
-          </tr>
-        `)
-        .join("");
+    if (!keyword) {
+      tbody.innerHTML = `<tr><td colspan="4">検索ワードを入力してください</td></tr>`;
+      return;
     }
 
-    function viewGraph(playerId) {
-      // プレイヤーID付きのグラフページへ遷移（別ページを作る想定）
-      window.location.href = `graph.html?playerId=${playerId}`;
+    const apiUrl = `https://next-rate.vercel.app/api/rating/public?keyword=${encodeURIComponent(keyword)}`;
+
+    const res = await fetch(apiUrl);
+    const players = await res.json();
+
+    if (players.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4">該当するプレイヤーがいません</td></tr>`;
+      return;
     }
 
-    loadRatings();
-  </script>
+    tbody.innerHTML = players
+      .map(p => `
+        <tr>
+          <td>${p.name}</td>
+          <td>${p.currentRate}</td>
+          <td>${p.initialRate}</td>
+          <td>
+            <button class="graph-button" onclick="viewGraph('${p.id}')">グラフ</button>
+          </td>
+        </tr>
+      `)
+      .join("");
+  }
+</script>
 
 </body>
 </html>
