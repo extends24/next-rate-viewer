@@ -19,11 +19,15 @@ table {
 th, td {
   border: 1px solid #ccc;
   padding: 8px;
-  text-align: center;
 }
 
 th {
   background: #eee;
+  text-align: center;
+}
+
+td {
+  text-align: left;
 }
 
 .search-area {
@@ -74,12 +78,4 @@ th {
   th, td {
     padding: 6px;
   }
-}
-
-/* ===== 過去10局の履歴表示 ===== */
-.history-box {
-  text-align: left;
-  font-size: 13px;
-  line-height: 1.4;
-  padding: 4px;
 }

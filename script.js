@@ -4,7 +4,7 @@ async function search() {
   const tbody = document.getElementById("rating-body");
 
   if (!keyword) {
-    tbody.innerHTML = `<tr><td colspan="4">検索ワードを入力してください</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="2">検索ワードを入力してください</td></tr>`;
     return;
   }
 
@@ -12,32 +12,37 @@ async function search() {
   const res = await fetch(apiUrl);
   const players = await res.json();
 
-  if (players.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="4">該当するプレイヤーがいません</td></tr>`;
+  if (!Array.isArray(players) || players.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="2">該当するプレイヤーがいません</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = players
-    .map((p) => {
-      const historyHtml = p.history
-        .map((h, i) => {
-          const date = new Date(h.playedAt).toLocaleDateString("ja-JP");
-          return `<div>${i + 1}. ${h.rate}（${date}）</div>`;
-        })
-        .join("");
+  let rowsHtml = "";
 
-      return `
+  players.forEach((p) => {
+    const history = Array.isArray(p.history) ? p.history : [];
+
+    if (history.length === 0) {
+      // 履歴が無い場合は1行だけ出す
+      rowsHtml += `
         <tr>
           <td>${p.name}</td>
-          <td>${p.currentRate}</td>
-          <td>${p.initialRate}</td>
-          <td>
-            <div class="history-box">
-              ${historyHtml}
-            </div>
-          </td>
+          <td>対局履歴なし</td>
         </tr>
       `;
-    })
-    .join("");
+      return;
+    }
+
+    history.forEach((h, index) => {
+      const nameCell = index === 0 ? p.name : "";
+      rowsHtml += `
+        <tr>
+          <td>${nameCell}</td>
+          <td>${h.rate}</td>
+        </tr>
+      `;
+    });
+  });
+
+  tbody.innerHTML = rowsHtml;
 }
