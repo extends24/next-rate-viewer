@@ -9,13 +9,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-top: 20px;
-  background: white;
-}
-
 th, td {
   border: 1px solid #ccc;
   padding: 8px;
@@ -51,4 +44,42 @@ th {
   font-size: 14px;
   margin-left: 5px;
   cursor: pointer;
+}
+
+/* スマホ対応：テーブルを横スクロール可能に */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* スマホ向けレイアウト調整 */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .search-input {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .search-button {
+    width: 100%;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+
+  .graph-button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
 }
