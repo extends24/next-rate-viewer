@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>レート推移グラフ</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <h1>レート推移グラフ</h1>
+  <canvas id="rateChart" width="400" height="200"></canvas>
+
+  <script>
+    async function loadRateHistory() {
+      // ★ あなたの API に置き換える
+      const apiUrl = "https://next-rate.vercel.app/api/rating/history?playerId=xxx";
+
+      const res = await fetch(apiUrl);
+      const history = await res.json();
+
+      const labels = history.map(h => h.playedAt);
+      const data = history.map(h => h.rate);
+
+      new Chart(document.getElementById("rateChart"), {
+        type: "line",
+        data: {
+          labels,
+          datasets: [{
+            label: "レート推移",
+            data,
+            borderColor: "blue",
+            fill: false
+          }]
+        }
+      });
+    }
+
+    loadRateHistory();
+  </script>
+
+</body>
+</html>
