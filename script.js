@@ -4,7 +4,7 @@ async function search() {
   const tbody = document.getElementById("rating-body");
 
   if (!keyword) {
-    tbody.innerHTML = `<tr><td colspan="5">検索ワードを入力してください</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6">検索ワードを入力してください</td></tr>`;
     return;
   }
 
@@ -13,7 +13,7 @@ async function search() {
   const players = await res.json();
 
   if (!Array.isArray(players) || players.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5">該当するプレイヤーがいません</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6">該当するプレイヤーがいません</td></tr>`;
     return;
   }
 
@@ -26,7 +26,7 @@ async function search() {
       rowsHtml += `
         <tr>
           <td>${p.name}</td>
-          <td colspan="4">対局履歴なし</td>
+          <td colspan="5">対局履歴なし</td>
         </tr>
       `;
       return;
@@ -42,6 +42,7 @@ async function search() {
           <td>${h.opponent ?? "-"}</td>
           <td>${h.opponentRate ?? "-"}</td>
           <td>${h.result ?? "-"}</td>
+          <td>${h.playedAt ? new Date(h.playedAt).toLocaleString() : "-"}</td>
         </tr>
       `;
     });
