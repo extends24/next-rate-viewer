@@ -4,7 +4,7 @@ async function search() {
   const tbody = document.getElementById("rating-body");
 
   if (!keyword) {
-    tbody.innerHTML = `<tr><td colspan="2">検索ワードを入力してください</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6">検索ワードを入力してください</td></tr>`;
     return;
   }
 
@@ -13,7 +13,7 @@ async function search() {
   const players = await res.json();
 
   if (!Array.isArray(players) || players.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="2">該当するプレイヤーがいません</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6">該当するプレイヤーがいません</td></tr>`;
     return;
   }
 
@@ -23,11 +23,10 @@ async function search() {
     const history = Array.isArray(p.history) ? p.history : [];
 
     if (history.length === 0) {
-      // 履歴が無い場合は1行だけ出す
       rowsHtml += `
         <tr>
           <td>${p.name}</td>
-          <td>対局履歴なし</td>
+          <td colspan="5">対局履歴なし</td>
         </tr>
       `;
       return;
@@ -35,10 +34,15 @@ async function search() {
 
     history.forEach((h, index) => {
       const nameCell = index === 0 ? p.name : "";
+
       rowsHtml += `
         <tr>
           <td>${nameCell}</td>
           <td>${h.rate}</td>
+          <td>${h.playedAt ? new Date(h.playedAt).toLocaleString() : "-"}</td>
+          <td>${h.opponent ?? "-"}</td>
+          <td>${h.result ?? "-"}</td>
+          <td>${h.rateDiff ?? "-"}</td>
         </tr>
       `;
     });
