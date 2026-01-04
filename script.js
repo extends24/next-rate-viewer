@@ -1,4 +1,3 @@
-// ===== 検索処理 =====
 async function search() {
   const keyword = document.getElementById("keyword").value.trim();
   const tbody = document.getElementById("rating-body");
@@ -34,6 +33,9 @@ async function search() {
 
     history.forEach((h, index) => {
       const nameCell = index === 0 ? p.name : "";
+      const dateText = h.playedAt && typeof h.playedAt === "string"
+        ? new Date(h.playedAt).toLocaleString("ja-JP", { dateStyle: "short", timeStyle: "short" })
+        : "-";
 
       rowsHtml += `
         <tr>
@@ -42,7 +44,7 @@ async function search() {
           <td>${h.opponent ?? "-"}</td>
           <td>${h.opponentRate ?? "-"}</td>
           <td>${h.result ?? "-"}</td>
-          <td>${h.playedAt ? new Date(h.playedAt).toLocaleString() : "-"}</td>
+          <td>${dateText}</td>
         </tr>
       `;
     });
