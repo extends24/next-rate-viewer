@@ -7,7 +7,7 @@ async function search() {
     return;
   }
 
-  const apiUrl = `https://next-rate.vercel.app/api/rating/public?keyword=${encodeURIComponent(keyword)}`;
+  const apiUrl = `https://next-rate.vercel.app/api/public?keyword=${encodeURIComponent(keyword)}`;
   const res = await fetch(apiUrl);
   const players = await res.json();
 
