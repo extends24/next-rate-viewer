@@ -3,7 +3,7 @@ async function search() {
   const tbody = document.getElementById("rating-body");
 
   if (!keyword) {
-    tbody.innerHTML = `<tr><td colspan="6">検索ワードを入力してください</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">検索ワードを入力してください</td></tr>`;
     return;
   }
 
@@ -12,7 +12,7 @@ async function search() {
   const players = await res.json();
 
   if (!Array.isArray(players) || players.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6">該当するプレイヤーがいません</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">該当するプレイヤーがいません</td></tr>`;
     return;
   }
 
@@ -25,7 +25,7 @@ async function search() {
       rowsHtml += `
         <tr>
           <td>${p.name}</td>
-          <td colspan="5">対局履歴なし</td>
+          <td colspan="5" class="empty-state">対局履歴なし</td>
         </tr>
       `;
       return;
