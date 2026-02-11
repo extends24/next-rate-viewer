@@ -1,37 +1,48 @@
-<!DOCTYPE html>
-<html lang="ja">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>研究会レーティングシステム</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="background-glow"></div>
+  <main class="app-container">
+    <header class="app-header">
+      <h1>研究会レーティングシステム</h1>
+      <p class="subtitle">プレイヤー名で成績を検索</p>
+    </header>
 
-  <h1>研究会レーティングシステム</h1>
-  <p>プレイヤー名で検索してください。</p>
+    <div class="search-area">
+      <div class="input-wrapper">
+        <input id="keyword" class="search-input" type="text" placeholder="名前を入力..." />
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </div>
+      <button class="search-button" onclick="search()">検索</button>
+    </div>
 
-  <div class="search-area">
-    <input id="keyword" class="search-input" type="text" placeholder="名前で検索" />
-    <button class="search-button" onclick="search()">検索</button>
-  </div>
-
-  <div class="table-wrapper">
-    <table id="rating-table">
-      <thead>
-        <tr>
-          <th>名前</th>
-          <th>レート</th>
-          <th>対戦相手</th>
-          <th>対戦相手のレート</th>
-          <th>勝敗</th>
-          <th>日時</th>
-        </tr>
-      </thead>
-      <tbody id="rating-body">
-        <tr><td colspan="2">検索してください</td></tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="table-card">
+      <div class="table-wrapper">
+        <table id="rating-table">
+          <thead>
+            <tr>
+              <th>名前</th>
+              <th>レート</th>
+              <th>対戦相手</th>
+              <th>対戦相手のレート</th>
+              <th>勝敗</th>
+              <th>日時</th>
+            </tr>
+          </thead>
+          <tbody id="rating-body">
+            <tr><td colspan="6" class="empty-state">検索してください</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
 
   <script src="script.js"></script>
 </body>
